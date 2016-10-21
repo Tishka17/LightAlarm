@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.github.ivbaranov.rxbluetooth.RxBluetooth;
+import com.jakewharton.rxbinding.view.RxView;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.IOException;
@@ -15,7 +16,6 @@ import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    @OnClick(R.id.button_send)
     void send() {
         if (!mRxBluetooth.isBluetoothEnabled()) {
             mRxBluetooth.enableBluetooth(this, REQUEST_ENABLE_BT);
@@ -96,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         finish();
                     }
+                });
+        RxView.clicks(mButtonSend)
+                .subscribe(aVoid -> {
+                    send();
                 });
     }
 }
